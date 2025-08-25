@@ -1,9 +1,11 @@
-export interface User {
+export interface Profile {
   id: string;
   email: string;
-  name: string;
-  avatar?: string;
+  username: string | null;
+  role: 'user' | 'admin';
+  avatar_url: string | null;
   created_at: string;
+  updated_at: string;
 }
 
 export interface Song {
@@ -38,7 +40,8 @@ export interface Album {
 }
 
 export interface AuthState {
-  user: User | null;
+  user: any | null;
+  profile: Profile | null;
   loading: boolean;
   error: string | null;
 }

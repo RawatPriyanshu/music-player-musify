@@ -1,21 +1,68 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
+
+interface SignInFormData {
+  email: string;
+  password: string;
+}
+
+interface SignUpFormData {
+  username: string;
+  email: string;
+  password: string;
+}
 
 const AuthForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const { signIn, signUp } = useAuth();
+  const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const signInForm = useForm<SignInFormData>();
+  const signUpForm = useForm<SignUpFormData>();
+
+  const handleSignIn = async (data: SignInFormData) => {
     setIsLoading(true);
+    const { error } = await signIn(data.email, data.password);
     
-    // TODO: Implement Supabase authentication
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    if (error) {
+      toast({
+        title: "Sign In Failed",
+        description: error,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Welcome back!",
+        description: "You have been signed in successfully.",
+      });
+    }
+    setIsLoading(false);
+  };
+
+  const handleSignUp = async (data: SignUpFormData) => {
+    setIsLoading(true);
+    const { error } = await signUp(data.email, data.password, data.username);
+    
+    if (error) {
+      toast({
+        title: "Sign Up Failed",
+        description: error,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Account Created!",
+        description: "Please check your email to verify your account.",
+      });
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -34,24 +81,30 @@ const AuthForm = () => {
           </TabsList>
           
           <TabsContent value="signin">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={signInForm.handleSubmit(handleSignIn)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="signin-email">Email</Label>
                 <Input
-                  id="email"
+                  id="signin-email"
                   type="email"
                   placeholder="Enter your email"
-                  required
+                  {...signInForm.register('email', { required: 'Email is required' })}
                 />
+                {signInForm.formState.errors.email && (
+                  <p className="text-sm text-destructive">{signInForm.formState.errors.email.message}</p>
+                )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="signin-password">Password</Label>
                 <Input
-                  id="password"
+                  id="signin-password"
                   type="password"
                   placeholder="Enter your password"
-                  required
+                  {...signInForm.register('password', { required: 'Password is required' })}
                 />
+                {signInForm.formState.errors.password && (
+                  <p className="text-sm text-destructive">{signInForm.formState.errors.password.message}</p>
+                )}
               </div>
               <Button 
                 type="submit" 
@@ -64,15 +117,18 @@ const AuthForm = () => {
           </TabsContent>
           
           <TabsContent value="signup">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={signUpForm.handleSubmit(handleSignUp)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="name"
+                  id="username"
                   type="text"
-                  placeholder="Enter your full name"
-                  required
+                  placeholder="Choose a username"
+                  {...signUpForm.register('username', { required: 'Username is required' })}
                 />
+                {signUpForm.formState.errors.username && (
+                  <p className="text-sm text-destructive">{signUpForm.formState.errors.username.message}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="signup-email">Email</Label>
@@ -80,17 +136,26 @@ const AuthForm = () => {
                   id="signup-email"
                   type="email"
                   placeholder="Enter your email"
-                  required
+                  {...signUpForm.register('email', { required: 'Email is required' })}
                 />
+                {signUpForm.formState.errors.email && (
+                  <p className="text-sm text-destructive">{signUpForm.formState.errors.email.message}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="signup-password">Password</Label>
                 <Input
                   id="signup-password"
                   type="password"
-                  placeholder="Create a password"
-                  required
+                  placeholder="Create a password (min 6 characters)"
+                  {...signUpForm.register('password', { 
+                    required: 'Password is required',
+                    minLength: { value: 6, message: 'Password must be at least 6 characters' }
+                  })}
                 />
+                {signUpForm.formState.errors.password && (
+                  <p className="text-sm text-destructive">{signUpForm.formState.errors.password.message}</p>
+                )}
               </div>
               <Button 
                 type="submit" 
