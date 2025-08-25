@@ -1,5 +1,5 @@
 import { useAuth } from '@/hooks/useAuth';
-import Navbar from '@/components/Navbar';
+import { SongDemo } from '@/components/SongDemo';
 import { Music, TrendingUp, Clock, Heart } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -7,9 +7,7 @@ const Dashboard = () => {
   const { profile } = useAuth();
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      
+    <div className="bg-background">
       <main className="pt-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           {/* Welcome Header */}
@@ -20,6 +18,11 @@ const Dashboard = () => {
             <p className="text-muted-foreground">
               Discover new music and enjoy your favorite tracks
             </p>
+          </div>
+
+          {/* Music Player Demo */}
+          <div className="mb-8">
+            <SongDemo />
           </div>
 
           {/* Stats Cards */}
