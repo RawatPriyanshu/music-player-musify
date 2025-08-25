@@ -12,10 +12,12 @@ export interface Song {
   id: string;
   title: string;
   artist: string;
-  album: string;
+  album?: string;
   duration: number;
   artwork_url?: string;
   audio_url: string;
+  approved: boolean;
+  uploader_id: string;
   created_at: string;
 }
 

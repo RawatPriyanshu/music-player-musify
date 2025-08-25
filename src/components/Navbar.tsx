@@ -24,14 +24,14 @@ const Navbar = () => {
           {user && (
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <a href="#" className="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Discover
+                <a href="/dashboard" className="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Dashboard
                 </a>
-                <a href="#" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Browse
+                <a href="/library" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Library
                 </a>
-                <a href="#" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Radio
+                <a href="/upload" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Upload
                 </a>
                 {profile?.role === 'admin' && (
                   <a href="#" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">

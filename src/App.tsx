@@ -10,6 +10,8 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
+import Upload from "./pages/Upload";
+import Library from "./pages/Library";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -51,6 +53,22 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/upload" 
+          element={
+            <ProtectedRoute>
+              <Upload />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/library" 
+          element={
+            <ProtectedRoute>
+              <Library />
             </ProtectedRoute>
           } 
         />
