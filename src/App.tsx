@@ -12,6 +12,9 @@ import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import Upload from "./pages/Upload";
 import Library from "./pages/Library";
+import Playlists from "./pages/Playlists";
+import PlaylistDetail from "./pages/PlaylistDetail";
+import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -69,6 +72,30 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute>
               <Library />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/playlists" 
+          element={
+            <ProtectedRoute>
+              <Playlists />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/playlist/:id" 
+          element={
+            <ProtectedRoute>
+              <PlaylistDetail />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/favorites" 
+          element={
+            <ProtectedRoute>
+              <Favorites />
             </ProtectedRoute>
           } 
         />
