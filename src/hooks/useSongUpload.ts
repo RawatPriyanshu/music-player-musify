@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { generateFileName } from '@/utils/fileValidator';
@@ -171,6 +171,14 @@ export function useSongUpload() {
 
     setIsUploading(false);
   }, [uploadQueue, isUploading, uploadSong]);
+
+  // Auto-process queue when new items are added
+  useEffect(() => {
+    const pendingItems = uploadQueue.filter(item => item.status === 'pending');
+    if (pendingItems.length > 0 && !isUploading) {
+      processQueue();
+    }
+  }, [uploadQueue, isUploading, processQueue]);
 
   const retryUpload = useCallback(async (id: string) => {
     const item = uploadQueue.find(item => item.id === id);
