@@ -34,7 +34,7 @@ const Navbar = () => {
                   Upload
                 </a>
                 {profile?.role === 'admin' && (
-                  <a href="#" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <a href="/admin" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                     Admin
                   </a>
                 )}
