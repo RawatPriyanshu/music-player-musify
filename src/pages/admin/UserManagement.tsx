@@ -95,6 +95,60 @@ const UserManagement = () => {
     }
   };
 
+  const banUser = async (userId: string, reason: string) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ banned: true, ban_reason: reason })
+        .eq('id', userId);
+
+      if (error) throw error;
+
+      setUsers(prev => prev.map(user => 
+        user.id === userId ? { ...user, banned: true, ban_reason: reason } : user
+      ));
+
+      toast({
+        title: "Success",
+        description: "User has been banned",
+      });
+    } catch (error) {
+      console.error('Error banning user:', error);
+      toast({
+        title: "Error",
+        description: "Failed to ban user",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const unbanUser = async (userId: string) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ banned: false, ban_reason: null })
+        .eq('id', userId);
+
+      if (error) throw error;
+
+      setUsers(prev => prev.map(user => 
+        user.id === userId ? { ...user, banned: false, ban_reason: null } : user
+      ));
+
+      toast({
+        title: "Success",
+        description: "User has been unbanned",
+      });
+    } catch (error) {
+      console.error('Error unbanning user:', error);
+      toast({
+        title: "Error",
+        description: "Failed to unban user",
+        variant: "destructive",
+      });
+    }
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -188,7 +242,12 @@ const UserManagement = () => {
                           </span>
                         </div>
                         <div>
-                          <p className="font-medium">{user.username || 'No username'}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium">{user.username || 'No username'}</p>
+                            {user.banned && (
+                              <Badge variant="destructive" className="text-xs">Banned</Badge>
+                            )}
+                          </div>
                           <p className="text-sm text-muted-foreground">ID: {user.id.slice(0, 8)}...</p>
                         </div>
                       </div>
@@ -291,10 +350,17 @@ const UserManagement = () => {
                               Remove Admin
                             </DropdownMenuItem>
                           )}
-                          <DropdownMenuItem className="text-destructive">
-                            <Ban className="w-4 h-4 mr-2" />
-                            Ban User
-                          </DropdownMenuItem>
+                          {!user.banned ? (
+                            <DropdownMenuItem onClick={() => banUser(user.id, "Violation of terms")} className="text-destructive">
+                              <Ban className="w-4 h-4 mr-2" />
+                              Ban User
+                            </DropdownMenuItem>
+                          ) : (
+                            <DropdownMenuItem onClick={() => unbanUser(user.id)} className="text-green-600">
+                              <UserCheck className="w-4 h-4 mr-2" />
+                              Unban User
+                            </DropdownMenuItem>
+                          )}
                           <DropdownMenuItem className="text-destructive">
                             <Trash2 className="w-4 h-4 mr-2" />
                             Delete Account

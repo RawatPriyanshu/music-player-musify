@@ -86,7 +86,7 @@ export const usePlaylists = () => {
 
   const updatePlaylist = useCallback(async (
     playlistId: string, 
-    updates: { name?: string; description?: string; cover_url?: string }
+    updates: { name?: string; description?: string; cover_url?: string; is_public?: boolean }
   ) => {
     try {
       const { error } = await supabase

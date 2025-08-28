@@ -6,6 +6,8 @@ export interface Profile {
   avatar_url: string | null;
   created_at: string;
   updated_at: string;
+  banned?: boolean;
+  ban_reason?: string | null;
 }
 
 export interface Song {

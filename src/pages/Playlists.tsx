@@ -20,6 +20,10 @@ const Playlists: React.FC = () => {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [playlistToDelete, setPlaylistToDelete] = useState<string | null>(null);
 
+  const handleShareToggle = async (playlistId: string, isPublic: boolean) => {
+    await updatePlaylist(playlistId, { is_public: !isPublic });
+  };
+
   const filteredPlaylists = playlists.filter(playlist =>
     playlist.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     playlist.description?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -117,6 +121,7 @@ const Playlists: React.FC = () => {
               onEdit={handleEditPlaylist}
               onDelete={handleDeletePlaylist}
               onDuplicate={duplicatePlaylist}
+              onShare={handleShareToggle}
               onClick={handlePlaylistClick}
             />
           ))}

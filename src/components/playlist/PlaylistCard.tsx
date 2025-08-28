@@ -2,15 +2,20 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Play, MoreVertical, Edit, Trash2, Copy, Share } from 'lucide-react';
+import { Play, MoreVertical, Edit, Trash2, Copy, Share2 } from 'lucide-react';
 import { usePlayer } from '@/contexts/PlayerContext';
 import type { Playlist } from '@/hooks/usePlaylists';
 
 interface PlaylistCardProps {
-  playlist: Playlist;
+  playlist: Playlist & { 
+    song_count?: number; 
+    total_duration?: number;
+    is_public?: boolean;
+  };
   onEdit: (playlist: Playlist) => void;
   onDelete: (playlistId: string) => void;
   onDuplicate: (playlistId: string) => void;
+  onShare: (playlistId: string, isPublic: boolean) => void;
   onClick: (playlistId: string) => void;
 }
 
@@ -29,6 +34,7 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = ({
   onEdit,
   onDelete,
   onDuplicate,
+  onShare,
   onClick
 }) => {
   const { actions } = usePlayer();
@@ -96,9 +102,12 @@ export const PlaylistCard: React.FC<PlaylistCardProps> = ({
                   <Copy className="mr-2 h-4 w-4" />
                   Duplicate
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Share className="mr-2 h-4 w-4" />
-                  Share
+                <DropdownMenuItem onClick={(e) => {
+                  e.stopPropagation();
+                  onShare(playlist.id, playlist.is_public || false);
+                }}>
+                  <Share2 className="mr-2 h-4 w-4" />
+                  {playlist.is_public ? 'Make Private' : 'Make Public'}
                 </DropdownMenuItem>
                 <DropdownMenuItem 
                   className="text-destructive focus:text-destructive"

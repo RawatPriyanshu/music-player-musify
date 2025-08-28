@@ -95,6 +95,7 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          is_public: boolean
           name: string
           user_id: string
         }
@@ -103,6 +104,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_public?: boolean
           name: string
           user_id: string
         }
@@ -111,6 +113,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          is_public?: boolean
           name?: string
           user_id?: string
         }
@@ -127,6 +130,8 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          ban_reason: string | null
+          banned: boolean
           created_at: string
           email: string
           id: string
@@ -136,6 +141,8 @@ export type Database = {
         }
         Insert: {
           avatar_url?: string | null
+          ban_reason?: string | null
+          banned?: boolean
           created_at?: string
           email: string
           id: string
@@ -145,6 +152,8 @@ export type Database = {
         }
         Update: {
           avatar_url?: string | null
+          ban_reason?: string | null
+          banned?: boolean
           created_at?: string
           email?: string
           id?: string
@@ -153,6 +162,50 @@ export type Database = {
           username?: string | null
         }
         Relationships: []
+      }
+      song_reports: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          reason: string
+          reporter_id: string
+          resolved_at: string | null
+          resolved_by: string | null
+          song_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          reason: string
+          reporter_id: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          song_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          reason?: string
+          reporter_id?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          song_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "song_reports_song_id_fkey"
+            columns: ["song_id"]
+            isOneToOne: false
+            referencedRelation: "songs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       songs: {
         Row: {
@@ -163,6 +216,8 @@ export type Database = {
           duration: number
           file_url: string
           id: string
+          play_count: number
+          report_count: number
           title: string
           uploader_id: string
         }
@@ -174,6 +229,8 @@ export type Database = {
           duration: number
           file_url: string
           id?: string
+          play_count?: number
+          report_count?: number
           title: string
           uploader_id: string
         }
@@ -185,6 +242,8 @@ export type Database = {
           duration?: number
           file_url?: string
           id?: string
+          play_count?: number
+          report_count?: number
           title?: string
           uploader_id?: string
         }

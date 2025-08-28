@@ -22,6 +22,10 @@ import {
 } from 'lucide-react';
 import { formatDuration } from '@/utils/fileValidator';
 import { cn } from '@/lib/utils';
+import { useFavorites } from '@/hooks/useFavorites';
+import { AddToPlaylistDropdown } from '@/components/playlist/AddToPlaylistDropdown';
+import { CreatePlaylistModal } from '@/components/playlist/CreatePlaylistModal';
+import { usePlaylists } from '@/hooks/usePlaylists';
 
 interface SongListItemProps {
   song: Song;
@@ -40,6 +44,9 @@ export function SongListItem({
 }: SongListItemProps) {
   const { state } = usePlayer();
   const [imageError, setImageError] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const { createPlaylist } = usePlaylists();
 
   const isCurrentSong = state.currentSong?.id === song.id;
   const isPlaying = isCurrentSong && state.isPlaying;
@@ -139,8 +146,9 @@ export function SongListItem({
             variant="ghost"
             size="sm"
             className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => toggleFavorite(song.id)}
           >
-            <Heart className="h-4 w-4" />
+            <Heart className={cn("h-4 w-4", isFavorite(song.id) && "fill-red-500 text-red-500")} />
           </Button>
         )}
 
@@ -159,13 +167,13 @@ export function SongListItem({
               <Play className="w-4 h-4 mr-2" />
               Play Now
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <ListPlus className="w-4 h-4 mr-2" />
-              Add to Playlist
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Heart className="w-4 h-4 mr-2" />
-              Add to Favorites
+            <AddToPlaylistDropdown 
+              songId={song.id} 
+              onCreateNewPlaylist={() => setShowCreateModal(true)} 
+            />
+            <DropdownMenuItem onClick={() => toggleFavorite(song.id)}>
+              <Heart className={cn("w-4 h-4 mr-2", isFavorite(song.id) && "fill-red-500 text-red-500")} />
+              {isFavorite(song.id) ? 'Remove from Favorites' : 'Add to Favorites'}
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Download className="w-4 h-4 mr-2" />
@@ -174,6 +182,12 @@ export function SongListItem({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      
+      <CreatePlaylistModal
+        open={showCreateModal}
+        onOpenChange={setShowCreateModal}
+        onCreatePlaylist={createPlaylist}
+      />
     </div>
   );
 }

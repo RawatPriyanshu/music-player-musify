@@ -30,6 +30,12 @@ const Navbar = () => {
                 <a href="/library" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Library
                 </a>
+                <a href="/playlists" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Playlists
+                </a>
+                <a href="/favorites" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  Favorites
+                </a>
                 <a href="/upload" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
                   Upload
                 </a>
