@@ -1,7 +1,8 @@
-import { Music, Search } from 'lucide-react';
+import { Music } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import UserProfile from './UserProfile';
+import { GlobalSearchBar } from '@/components/search/GlobalSearchBar';
 
 const Navbar = () => {
   const { user, profile } = useAuth();
@@ -50,16 +51,7 @@ const Navbar = () => {
 
           {/* Search - Show if authenticated */}
           {user && (
-            <div className="flex-1 max-w-lg mx-8">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Search for songs, artists, or albums..."
-                  className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              </div>
-            </div>
+            <GlobalSearchBar />
           )}
 
           {/* Right side - Auth dependent */}

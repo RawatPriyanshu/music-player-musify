@@ -17,6 +17,7 @@ import PlaylistDetail from "./pages/PlaylistDetail";
 import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Search from "./pages/Search";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import UserManagement from "./pages/admin/UserManagement";
 import SongModeration from "./pages/admin/SongModeration";
@@ -61,6 +62,14 @@ const AppRoutes = () => {
             ) : (
               <Landing />
             )
+          } 
+        />
+        <Route 
+          path="/search" 
+          element={
+            <ProtectedRoute>
+              <Search />
+            </ProtectedRoute>
           } 
         />
         <Route 
