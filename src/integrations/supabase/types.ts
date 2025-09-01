@@ -163,6 +163,36 @@ export type Database = {
         }
         Relationships: []
       }
+      search_analytics: {
+        Row: {
+          clicked_result_id: string | null
+          clicked_result_type: string | null
+          created_at: string
+          id: string
+          results_count: number
+          search_query: string
+          user_id: string | null
+        }
+        Insert: {
+          clicked_result_id?: string | null
+          clicked_result_type?: string | null
+          created_at?: string
+          id?: string
+          results_count?: number
+          search_query: string
+          user_id?: string | null
+        }
+        Update: {
+          clicked_result_id?: string | null
+          clicked_result_type?: string | null
+          created_at?: string
+          id?: string
+          results_count?: number
+          search_query?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       song_reports: {
         Row: {
           created_at: string
@@ -218,6 +248,7 @@ export type Database = {
           id: string
           play_count: number
           report_count: number
+          search_vector: unknown | null
           title: string
           uploader_id: string
         }
@@ -231,6 +262,7 @@ export type Database = {
           id?: string
           play_count?: number
           report_count?: number
+          search_vector?: unknown | null
           title: string
           uploader_id: string
         }
@@ -244,6 +276,7 @@ export type Database = {
           id?: string
           play_count?: number
           report_count?: number
+          search_vector?: unknown | null
           title?: string
           uploader_id?: string
         }
@@ -259,7 +292,15 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      popular_search_terms: {
+        Row: {
+          avg_results: number | null
+          last_searched: string | null
+          search_count: number | null
+          search_query: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       get_user_role: {
