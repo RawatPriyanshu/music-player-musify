@@ -17,9 +17,9 @@ export function NowPlaying() {
       {/* Album cover */}
       <div className="flex-shrink-0">
         <div className="w-12 h-12 rounded-md bg-muted overflow-hidden">
-          {currentSong.artwork_url ? (
+          {currentSong.cover_url ? (
             <img
-              src={currentSong.artwork_url}
+              src={currentSong.cover_url}
               alt={`${currentSong.title} cover`}
               className="w-full h-full object-cover"
             />

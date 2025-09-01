@@ -75,9 +75,9 @@ export function SongListItem({
 
       {/* Album Art */}
       <div className="w-12 h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
-        {song.artwork_url && !imageError ? (
+        {song.cover_url && !imageError ? (
           <img
-            src={song.artwork_url}
+            src={song.cover_url}
             alt={`${song.title} cover`}
             className="w-full h-full object-cover"
             onError={() => setImageError(true)}

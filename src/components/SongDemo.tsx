@@ -14,9 +14,12 @@ const demoSongs: Song[] = [
     album: 'Demo Album',
     duration: 180,
     audio_url: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
+    file_url: 'https://www.soundjay.com/misc/sounds/bell-ringing-05.wav',
     approved: true,
     uploader_id: 'demo-user',
     created_at: new Date().toISOString(),
+    play_count: 0,
+    report_count: 0,
   },
   {
     id: '2',
@@ -25,9 +28,12 @@ const demoSongs: Song[] = [
     album: 'Demo Album 2',
     duration: 210,
     audio_url: 'https://www.soundjay.com/misc/sounds/bell-ringing-06.wav',
+    file_url: 'https://www.soundjay.com/misc/sounds/bell-ringing-06.wav',
     approved: true,
     uploader_id: 'demo-user',
     created_at: new Date().toISOString(),
+    play_count: 0,
+    report_count: 0,
   },
   {
     id: '3',
@@ -36,9 +42,12 @@ const demoSongs: Song[] = [
     album: 'Demo Album 3',
     duration: 195,
     audio_url: 'https://www.soundjay.com/misc/sounds/bell-ringing-07.wav',
+    file_url: 'https://www.soundjay.com/misc/sounds/bell-ringing-07.wav',
     approved: true,
     uploader_id: 'demo-user',
     created_at: new Date().toISOString(),
+    play_count: 0,
+    report_count: 0,
   },
 ];
 

@@ -61,9 +61,9 @@ export function SongCard({
         {/* Cover Art */}
         <div className="relative mb-3">
           <div className="aspect-square rounded-lg overflow-hidden bg-muted">
-            {song.artwork_url && !imageError ? (
+            {song.cover_url && !imageError ? (
               <img
-                src={song.artwork_url}
+                src={song.cover_url}
                 alt={`${song.title} cover`}
                 className="w-full h-full object-cover"
                 onError={() => setImageError(true)}

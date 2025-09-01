@@ -1,5 +1,10 @@
 import { useAuth } from '@/hooks/useAuth';
 import { SongDemo } from '@/components/SongDemo';
+import { TrendingSection } from '@/components/discovery/TrendingSection';
+import { RecentlyAddedSection } from '@/components/discovery/RecentlyAddedSection';
+import { RecommendedSection } from '@/components/discovery/RecommendedSection';
+import { GenreBrowseSection } from '@/components/discovery/GenreBrowseSection';
+import { RandomDiscoverySection } from '@/components/discovery/RandomDiscoverySection';
 import { Music, TrendingUp, Clock, Heart } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -80,29 +85,14 @@ const Dashboard = () => {
             </Card>
           </div>
 
-          {/* Recently Played */}
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle>Recently Played</CardTitle>
-              <CardDescription>Your music history</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="flex items-center space-x-4 p-3 rounded-lg hover:bg-muted/50 cursor-pointer">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/40 rounded-md flex items-center justify-center">
-                      <Music className="w-6 h-6 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-medium text-foreground">Song Title {i + 1}</h3>
-                      <p className="text-sm text-muted-foreground">Artist Name</p>
-                    </div>
-                    <div className="text-sm text-muted-foreground">3:24</div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          {/* Music Discovery Sections */}
+          <div className="space-y-8">
+            <TrendingSection />
+            <RecentlyAddedSection />
+            <RecommendedSection />
+            <GenreBrowseSection />
+            <RandomDiscoverySection />
+          </div>
 
           {/* Admin Section */}
           {profile?.role === 'admin' && (

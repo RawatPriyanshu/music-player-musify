@@ -209,31 +209,41 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'SET_CURRENT_INDEX', payload: nextIndex });
       dispatch({ type: 'SET_CURRENT_SONG', payload: state.queue[nextIndex] });
       
-      if (audioRef.current) {
-        audioRef.current.src = state.queue[nextIndex].audio_url;
-        if (state.isPlaying) {
-          audioRef.current.play();
+        if (audioRef.current) {
+          audioRef.current.src = state.queue[nextIndex].audio_url || state.queue[nextIndex].file_url;
+          if (state.isPlaying) {
+            audioRef.current.play();
+          }
         }
-      }
     }
   };
 
   const actions: PlayerActions = {
     playSong: (song: Song, queue?: Song[]) => {
+      // Map file_url to audio_url for backward compatibility
+      const songWithAudioUrl = {
+        ...song,
+        audio_url: song.audio_url || song.file_url
+      };
+      
       if (queue) {
-        dispatch({ type: 'SET_QUEUE', payload: queue });
-        const index = queue.findIndex(s => s.id === song.id);
+        const queueWithAudioUrl = queue.map(s => ({
+          ...s,
+          audio_url: s.audio_url || s.file_url
+        }));
+        dispatch({ type: 'SET_QUEUE', payload: queueWithAudioUrl });
+        const index = queueWithAudioUrl.findIndex(s => s.id === song.id);
         dispatch({ type: 'SET_CURRENT_INDEX', payload: index });
       } else if (state.queue.length === 0) {
-        dispatch({ type: 'SET_QUEUE', payload: [song] });
+        dispatch({ type: 'SET_QUEUE', payload: [songWithAudioUrl] });
         dispatch({ type: 'SET_CURRENT_INDEX', payload: 0 });
       }
       
-      dispatch({ type: 'SET_CURRENT_SONG', payload: song });
+      dispatch({ type: 'SET_CURRENT_SONG', payload: songWithAudioUrl });
       dispatch({ type: 'SET_PLAYING', payload: true });
       
       if (audioRef.current) {
-        audioRef.current.src = song.audio_url;
+        audioRef.current.src = songWithAudioUrl.audio_url;
         audioRef.current.play();
       }
     },
@@ -257,7 +267,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'SET_CURRENT_SONG', payload: state.queue[prevIndex] });
         
         if (audioRef.current) {
-          audioRef.current.src = state.queue[prevIndex].audio_url;
+          audioRef.current.src = state.queue[prevIndex].audio_url || state.queue[prevIndex].file_url;
           if (state.isPlaying) {
             audioRef.current.play();
           }

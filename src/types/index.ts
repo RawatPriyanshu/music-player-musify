@@ -16,11 +16,14 @@ export interface Song {
   artist: string;
   album?: string;
   duration: number;
-  artwork_url?: string;
-  audio_url: string;
+  cover_url?: string;
+  file_url: string;
+  audio_url?: string; // For backward compatibility
   approved: boolean;
   uploader_id: string;
   created_at: string;
+  play_count: number;
+  report_count: number;
 }
 
 export interface Playlist {

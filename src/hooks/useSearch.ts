@@ -69,7 +69,7 @@ export const useSearch = () => {
       const results: SearchResult[] = [];
       const searchTerm = `%${query.toLowerCase()}%`;
 
-      // Search songs
+      // Search songs with enhanced full-text search
       if (searchFilters.type === 'song' || searchFilters.type === 'all') {
         let songQuery = supabase
           .from('songs')
