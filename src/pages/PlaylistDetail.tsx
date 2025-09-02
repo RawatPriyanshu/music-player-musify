@@ -77,11 +77,13 @@ const PlaylistDetail: React.FC = () => {
       title: ps.song.title,
       artist: ps.song.artist,
       duration: ps.song.duration,
-      artwork_url: ps.song.cover_url,
-      audio_url: ps.song.file_url,
+      cover_url: ps.song.cover_url,
+      file_url: ps.song.file_url,
       approved: true,
       uploader_id: '',
-      created_at: ''
+      created_at: '',
+      play_count: 0,
+      report_count: 0
     }));
 
     actions.playSong(songList[0]);
@@ -99,11 +101,13 @@ const PlaylistDetail: React.FC = () => {
       title: ps.song.title,
       artist: ps.song.artist,
       duration: ps.song.duration,
-      artwork_url: ps.song.cover_url,
-      audio_url: ps.song.file_url,
+      cover_url: ps.song.cover_url,
+      file_url: ps.song.file_url,
       approved: true,
       uploader_id: '',
-      created_at: ''
+      created_at: '',
+      play_count: 0,
+      report_count: 0
     }));
 
     actions.playSong(songList[0]);
@@ -282,11 +286,13 @@ const PlaylistDetail: React.FC = () => {
                       title: playlistSong.song.title,
                       artist: playlistSong.song.artist,
                       duration: playlistSong.song.duration,
-                      artwork_url: playlistSong.song.cover_url,
-                      audio_url: playlistSong.song.file_url,
+                      cover_url: playlistSong.song.cover_url,
+                      file_url: playlistSong.song.file_url,
                       approved: true,
                       uploader_id: '',
-                      created_at: ''
+                      created_at: '',
+                      play_count: 0,
+                      report_count: 0
                     };
                     actions.playSong(songData);
                   }}

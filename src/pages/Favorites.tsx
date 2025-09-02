@@ -24,11 +24,13 @@ const Favorites: React.FC = () => {
       title: fav.song.title,
       artist: fav.song.artist,
       duration: fav.song.duration,
-      artwork_url: fav.song.cover_url,
-      audio_url: fav.song.file_url,
+      cover_url: fav.song.cover_url,
+      file_url: fav.song.file_url,
       approved: true,
       uploader_id: '',
-      created_at: ''
+      created_at: '',
+      play_count: 0,
+      report_count: 0
     }));
 
       actions.playSong(songList[0]);
@@ -46,11 +48,13 @@ const Favorites: React.FC = () => {
       title: fav.song.title,
       artist: fav.song.artist,
       duration: fav.song.duration,
-      artwork_url: fav.song.cover_url,
-      audio_url: fav.song.file_url,
+      cover_url: fav.song.cover_url,
+      file_url: fav.song.file_url,
       approved: true,
       uploader_id: '',
-      created_at: ''
+      created_at: '',
+      play_count: 0,
+      report_count: 0
     }));
 
       actions.playSong(songList[0]);
@@ -163,11 +167,13 @@ const Favorites: React.FC = () => {
                   title: favorite.song.title,
                   artist: favorite.song.artist,
                   duration: favorite.song.duration,
-                  artwork_url: favorite.song.cover_url,
-                  audio_url: favorite.song.file_url,
+                  cover_url: favorite.song.cover_url,
+                  file_url: favorite.song.file_url,
                   approved: true,
                   uploader_id: '',
-                  created_at: favorite.created_at
+                  created_at: favorite.created_at,
+                  play_count: 0,
+                  report_count: 0
                 }}
                 onPlay={() => {
                   const songData = {
@@ -175,11 +181,13 @@ const Favorites: React.FC = () => {
                     title: favorite.song.title,
                     artist: favorite.song.artist,
                     duration: favorite.song.duration,
-                    artwork_url: favorite.song.cover_url,
-                    audio_url: favorite.song.file_url,
+                    cover_url: favorite.song.cover_url,
+                    file_url: favorite.song.file_url,
                     approved: true,
                     uploader_id: '',
-                    created_at: ''
+                    created_at: '',
+                    play_count: 0,
+                    report_count: 0
                   };
                   actions.playSong(songData);
                 }}
