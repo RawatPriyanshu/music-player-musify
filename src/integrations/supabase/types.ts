@@ -292,17 +292,18 @@ export type Database = {
       }
     }
     Views: {
-      popular_search_terms: {
-        Row: {
-          avg_results: number | null
-          last_searched: string | null
-          search_count: number | null
-          search_query: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
+      get_popular_search_terms_safe: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          avg_results: number
+          last_searched: string
+          search_count: number
+          search_query: string
+        }[]
+      }
       get_user_role: {
         Args: { user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
