@@ -303,6 +303,15 @@ export type Database = {
       }
     }
     Functions: {
+      get_popular_search_terms: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          avg_results: number
+          last_searched: string
+          search_count: number
+          search_query: string
+        }[]
+      }
       get_user_role: {
         Args: { user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
