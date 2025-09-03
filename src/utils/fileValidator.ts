@@ -104,7 +104,9 @@ export function generateFileName(originalName: string, userId: string): string {
   const timestamp = Date.now();
   const random = Math.random().toString(36).substring(2, 8);
   const extension = originalName.split('.').pop();
-  const cleanName = originalName.replace(/[^a-zA-Z0-9.-]/g, '_');
+  // Clean the filename to remove special characters that might cause issues
+  const nameWithoutExt = originalName.replace(`.${extension}`, '');
+  const cleanName = nameWithoutExt.replace(/[^a-zA-Z0-9-_]/g, '_');
   
-  return `${userId}/${timestamp}_${random}_${cleanName}`;
+  return `${userId}/${timestamp}_${random}_${cleanName}.${extension}`;
 }

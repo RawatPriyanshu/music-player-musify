@@ -8,11 +8,14 @@ import { UploadProgress } from './UploadProgress';
 import { useSongUpload } from '@/hooks/useSongUpload';
 import type { UploadFile } from './UploadZone';
 import type { SongMetadata } from './MetadataForm';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { MobileUploadZone } from '@/components/mobile/MobileUploadZone';
 import { Music, Upload, Clock } from 'lucide-react';
 
 export function SongUploadManager() {
   const [selectedAudioFile, setSelectedAudioFile] = useState<File | null>(null);
   const [currentStep, setCurrentStep] = useState<'upload' | 'metadata'>('upload');
+  const isMobile = useIsMobile();
   
   const {
     progressItems,
