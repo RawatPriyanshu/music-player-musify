@@ -68,6 +68,8 @@ export function useSongUpload() {
 
       // Upload audio file
       const audioFileName = generateFileName(queueItem.audioFile.name, user.id);
+      console.log('Uploading audio file to:', audioFileName);
+      
       const { data: audioUpload, error: audioError } = await supabase.storage
         .from('songs')
         .upload(audioFileName, queueItem.audioFile, {
@@ -76,8 +78,11 @@ export function useSongUpload() {
         });
 
       if (audioError) {
+        console.error('Audio upload error:', audioError);
         throw new Error(`Audio upload failed: ${audioError.message}`);
       }
+      
+      console.log('Audio upload successful:', audioUpload);
 
       updateProgress(queueItem.id, 50);
 
@@ -85,21 +90,36 @@ export function useSongUpload() {
       let coverUrl: string | undefined;
       let coverFileName: string | undefined;
       if (queueItem.metadata.coverImage) {
-        coverFileName = generateFileName(queueItem.metadata.coverImage.name, user.id);
-        const { data: coverUpload, error: coverError } = await supabase.storage
-          .from('covers')
-          .upload(coverFileName, queueItem.metadata.coverImage, {
-            cacheControl: '3600',
-            upsert: false,
-          });
-
-        if (coverError) {
-          console.warn('Cover upload failed:', coverError.message);
-        } else {
-          const { data: coverUrlData } = supabase.storage
+        try {
+          coverFileName = generateFileName(queueItem.metadata.coverImage.name, user.id);
+          console.log('Uploading cover image to:', coverFileName);
+          
+          const { data: coverUpload, error: coverError } = await supabase.storage
             .from('covers')
-            .getPublicUrl(coverUpload.path);
-          coverUrl = coverUrlData.publicUrl;
+            .upload(coverFileName, queueItem.metadata.coverImage, {
+              cacheControl: '3600',
+              upsert: false,
+            });
+
+          if (coverError) {
+            console.error('Cover upload failed:', coverError);
+            // Don't fail the entire upload just for cover image
+            toast({
+              title: "Cover image upload failed",
+              description: `${coverError.message}. Song will be uploaded without cover image.`,
+              variant: "destructive",
+            });
+          } else {
+            console.log('Cover upload successful:', coverUpload);
+            const { data: coverUrlData } = supabase.storage
+              .from('covers')
+              .getPublicUrl(coverUpload.path);
+            coverUrl = coverUrlData.publicUrl;
+            console.log('Cover URL:', coverUrl);
+          }
+        } catch (error) {
+          console.error('Cover upload error:', error);
+          // Continue with song upload without cover
         }
       }
 
