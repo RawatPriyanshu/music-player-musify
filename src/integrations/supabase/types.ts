@@ -50,6 +50,36 @@ export type Database = {
           },
         ]
       }
+      performance_metrics: {
+        Row: {
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          metric_name: string
+          url: string | null
+          user_id: string | null
+          value: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          metric_name: string
+          url?: string | null
+          user_id?: string | null
+          value: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          metric_name?: string
+          url?: string | null
+          user_id?: string | null
+          value?: number
+        }
+        Relationships: []
+      }
       playlist_songs: {
         Row: {
           added_at: string
@@ -163,6 +193,33 @@ export type Database = {
         }
         Relationships: []
       }
+      rate_limits: {
+        Row: {
+          count: number
+          created_at: string | null
+          id: string
+          key: string
+          reset_time: number
+          updated_at: string | null
+        }
+        Insert: {
+          count?: number
+          created_at?: string | null
+          id?: string
+          key: string
+          reset_time: number
+          updated_at?: string | null
+        }
+        Update: {
+          count?: number
+          created_at?: string | null
+          id?: string
+          key?: string
+          reset_time?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       search_analytics: {
         Row: {
           clicked_result_id: string | null
@@ -189,6 +246,36 @@ export type Database = {
           id?: string
           results_count?: number
           search_query?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      security_logs: {
+        Row: {
+          created_at: string | null
+          id: string
+          ip_address: string | null
+          issues_found: number
+          scan_type: string
+          severity_breakdown: Json | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          ip_address?: string | null
+          issues_found?: number
+          scan_type: string
+          severity_breakdown?: Json | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          ip_address?: string | null
+          issues_found?: number
+          scan_type?: string
+          severity_breakdown?: Json | null
           user_id?: string | null
         }
         Relationships: []
