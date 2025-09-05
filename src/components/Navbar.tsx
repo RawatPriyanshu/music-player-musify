@@ -3,9 +3,11 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/hooks/useAuth';
 import UserProfile from './UserProfile';
 import { GlobalSearchBar } from '@/components/search/GlobalSearchBar';
+import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const { user, profile } = useAuth();
+  const location = useLocation();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
@@ -25,25 +27,67 @@ const Navbar = () => {
           {user && (
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <a href="/dashboard" className="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <Link 
+                  to="/dashboard" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === '/dashboard' || location.pathname === '/' 
+                      ? 'text-primary bg-primary/10' 
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
+                >
                   Dashboard
-                </a>
-                <a href="/library" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                </Link>
+                <Link 
+                  to="/library" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === '/library' 
+                      ? 'text-primary bg-primary/10' 
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
+                >
                   Library
-                </a>
-                <a href="/playlists" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                </Link>
+                <Link 
+                  to="/playlists" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === '/playlists' 
+                      ? 'text-primary bg-primary/10' 
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
+                >
                   Playlists
-                </a>
-                <a href="/favorites" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                </Link>
+                <Link 
+                  to="/favorites" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === '/favorites' 
+                      ? 'text-primary bg-primary/10' 
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
+                >
                   Favorites
-                </a>
-                <a href="/upload" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                </Link>
+                <Link 
+                  to="/upload" 
+                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === '/upload' 
+                      ? 'text-primary bg-primary/10' 
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
+                >
                   Upload
-                </a>
+                </Link>
                 {profile?.role === 'admin' && (
-                  <a href="/admin" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  <Link 
+                    to="/admin" 
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      location.pathname.startsWith('/admin') 
+                        ? 'text-primary bg-primary/10' 
+                        : 'text-muted-foreground hover:text-primary'
+                    }`}
+                  >
                     Admin
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>
