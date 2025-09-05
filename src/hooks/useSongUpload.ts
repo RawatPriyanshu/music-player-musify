@@ -58,12 +58,18 @@ export function useSongUpload() {
   }, []);
 
   const uploadSong = useCallback(async (queueItem: UploadQueueItem): Promise<boolean> => {
+    console.log('Starting upload for:', queueItem.metadata.title);
+    
     if (!user) {
+      console.error('User not authenticated');
       markAsError(queueItem.id, 'User not authenticated');
       return false;
     }
 
+    console.log('User authenticated, starting upload process...');
+    
     try {
+      console.log('Setting progress to 10%');
       updateProgress(queueItem.id, 10);
 
       // Upload audio file
@@ -177,18 +183,31 @@ export function useSongUpload() {
   }, [user, updateProgress, markAsError, markAsSuccess, toast]);
 
   const processQueue = useCallback(async () => {
-    if (isUploading) return;
+    console.log('processQueue called, isUploading:', isUploading);
+    
+    if (isUploading) {
+      console.log('Already uploading, skipping...');
+      return;
+    }
 
     const pendingItems = uploadQueue.filter(item => item.status === 'pending');
-    if (pendingItems.length === 0) return;
+    console.log('Pending items count:', pendingItems.length);
+    
+    if (pendingItems.length === 0) {
+      console.log('No pending items, exiting...');
+      return;
+    }
 
+    console.log('Setting isUploading to true');
     setIsUploading(true);
 
     // Process uploads sequentially to avoid overwhelming the server
     for (const item of pendingItems) {
+      console.log('Processing item:', item.metadata.title);
       await uploadSong(item);
     }
 
+    console.log('Setting isUploading to false');
     setIsUploading(false);
   }, [uploadQueue, isUploading, uploadSong]);
 
