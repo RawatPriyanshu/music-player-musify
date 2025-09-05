@@ -19,6 +19,7 @@ interface UploadZoneProps {
   acceptAudio?: boolean;
   acceptImages?: boolean;
   className?: string;
+  autoUpload?: boolean; // Automatically upload files when selected
 }
 
 export function UploadZone({ 
@@ -26,7 +27,8 @@ export function UploadZone({
   maxFiles = 10, 
   acceptAudio = true, 
   acceptImages = true,
-  className 
+  className,
+  autoUpload = false
 }: UploadZoneProps) {
   const [isDragOver, setIsDragOver] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<UploadFile[]>([]);
@@ -70,6 +72,18 @@ export function UploadZone({
     }
 
     setSelectedFiles(prev => [...prev, ...newUploadFiles]);
+    
+    // Auto-upload if enabled and files are valid
+    if (autoUpload && newUploadFiles.some(f => f.isValid)) {
+      setTimeout(() => {
+        const validFiles = newUploadFiles.filter(f => f.isValid);
+        onFilesAdded(validFiles);
+        setSelectedFiles([]);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      }, 100);
+    }
   };
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {

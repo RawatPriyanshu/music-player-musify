@@ -198,6 +198,7 @@ export function MetadataForm({ audioFile, onSubmit, onCancel, isLoading }: Metad
                 acceptAudio={false}
                 acceptImages={true}
                 className="max-w-md"
+                autoUpload={true}
               />
             )}
           </div>
