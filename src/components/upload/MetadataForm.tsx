@@ -219,7 +219,7 @@ export function MetadataForm({ audioFile, onSubmit, onCancel, isLoading }: Metad
               type="submit"
               disabled={!metadata.title.trim() || !metadata.artist.trim() || isLoading}
             >
-              {isLoading ? 'Uploading...' : 'Upload Song'}
+              {isLoading ? 'Uploading...' : `Upload Song${coverImage ? ' with Cover' : ''}`}
             </Button>
           </div>
         </form>

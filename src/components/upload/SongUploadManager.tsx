@@ -38,15 +38,15 @@ export function SongUploadManager() {
   const handleMetadataSubmit = async (metadata: SongMetadata) => {
     if (!selectedAudioFile) return;
 
-    // Add to upload queue
+    // Add to upload queue and immediately process
     const id = addToQueue(selectedAudioFile, metadata);
     
-    // Reset form
+    // Start processing immediately when user clicks upload
+    await processQueue();
+    
+    // Reset form after successful upload
     setSelectedAudioFile(null);
     setCurrentStep('upload');
-    
-    // Start processing
-    processQueue();
   };
 
   const handleCancel = () => {
