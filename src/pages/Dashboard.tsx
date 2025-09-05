@@ -1,5 +1,4 @@
 import { useAuth } from '@/hooks/useAuth';
-import { SongDemo } from '@/components/SongDemo';
 import { TrendingSection } from '@/components/discovery/TrendingSection';
 import { RecentlyAddedSection } from '@/components/discovery/RecentlyAddedSection';
 import { RecommendedSection } from '@/components/discovery/RecommendedSection';
@@ -23,11 +22,6 @@ const Dashboard = () => {
             <p className="text-muted-foreground">
               Discover new music and enjoy your favorite tracks
             </p>
-          </div>
-
-          {/* Music Player Demo */}
-          <div className="mb-8">
-            <SongDemo />
           </div>
 
           {/* Stats Cards */}
