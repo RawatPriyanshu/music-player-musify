@@ -23,6 +23,7 @@ export function SongUploadManager() {
     addToQueue,
     removeFromQueue,
     processQueue,
+    processQueueItem,
     retryUpload,
     clearCompleted,
   } = useSongUpload();
@@ -43,17 +44,25 @@ export function SongUploadManager() {
       return;
     }
 
-    console.log('Adding to queue...');
-    // Add to upload queue and immediately process
+    console.log('Adding to queue and processing directly...');
+    // Add to upload queue and process immediately
     const id = addToQueue(selectedAudioFile, metadata);
     console.log('Added to queue with id:', id);
     
-    console.log('Starting processing...');
-    // Start processing immediately when user clicks upload
-    await processQueue();
+    // Process the specific item directly to avoid React state timing issues
+    const queueItem = {
+      id,
+      audioFile: selectedAudioFile,
+      metadata,
+      status: 'pending' as const,
+      progress: 0,
+    };
+    
+    console.log('Starting direct processing...');
+    await processQueueItem(queueItem);
     console.log('Processing completed');
     
-    // Reset form after successful upload
+    // Reset form after upload
     setSelectedAudioFile(null);
     setCurrentStep('upload');
   };

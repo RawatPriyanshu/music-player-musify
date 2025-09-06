@@ -250,6 +250,7 @@ export function useSongUpload() {
     addToQueue,
     removeFromQueue,
     processQueue,
+    processQueueItem: uploadSong, // Export uploadSong as processQueueItem
     retryUpload,
     clearCompleted,
   };
