@@ -168,7 +168,7 @@ export function UploadZone({
             {acceptImages ? '5MB for images' : ''}
           </p>
           
-          <Button variant="outline">
+          <Button type="button" variant="outline">
             Browse Files
           </Button>
           
