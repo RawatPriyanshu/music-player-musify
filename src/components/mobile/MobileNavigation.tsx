@@ -1,27 +1,47 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Search, Library, Heart, Upload, User } from 'lucide-react';
+import { Home, Search, Library, Heart, Upload, User, List, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-
-const navItems = [
-  { icon: Home, label: 'Home', path: '/' },
-  { icon: Search, label: 'Search', path: '/search' },
-  { icon: Library, label: 'Library', path: '/library' },
-  { icon: Heart, label: 'Favorites', path: '/favorites' },
-  { icon: Upload, label: 'Upload', path: '/upload' }
-];
+import { useAuth } from '@/hooks/useAuth';
 
 export const MobileNavigation: React.FC = () => {
   const { impact } = useHapticFeedback();
+  const { user, profile } = useAuth();
 
   const handleNavClick = () => {
     impact('light');
   };
 
+  // Base navigation items for all users
+  const baseNavItems = [
+    { icon: Home, label: 'Home', path: '/' },
+    { icon: Search, label: 'Search', path: '/search' },
+    { icon: Library, label: 'Library', path: '/library' },
+    { icon: List, label: 'Playlists', path: '/playlists' },
+    { icon: Heart, label: 'Favorites', path: '/favorites' }
+  ];
+
+  // Admin gets upload and admin access
+  const adminNavItems = [
+    ...baseNavItems,
+    { icon: Upload, label: 'Upload', path: '/upload' },
+    { icon: Settings, label: 'Admin', path: '/admin' }
+  ];
+
+  // Regular users get upload
+  const userNavItems = [
+    ...baseNavItems,
+    { icon: Upload, label: 'Upload', path: '/upload' }
+  ];
+
+  const navItems = profile?.role === 'admin' ? adminNavItems : userNavItems;
+
+  if (!user) return null;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-t border-border lg:hidden">
-      <nav className="flex items-center justify-around h-16 px-2">
+      <nav className="flex items-center justify-around h-16 px-1">
         {navItems.map(({ icon: Icon, label, path }) => (
           <NavLink
             key={path}
@@ -37,9 +57,9 @@ export const MobileNavigation: React.FC = () => {
           >
             {({ isActive }) => (
               <>
-                <Icon className={cn("h-5 w-5 mb-1", isActive && "text-primary")} />
+                <Icon className={cn("h-4 w-4 mb-1", isActive && "text-primary")} />
                 <span className={cn(
-                  "text-xs font-medium truncate",
+                  "text-xs font-medium truncate leading-tight",
                   isActive && "text-primary"
                 )}>
                   {label}
