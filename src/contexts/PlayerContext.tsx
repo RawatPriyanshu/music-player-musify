@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useRef, useEffect, ReactNode } from 'react';
 import { Song } from '@/types';
+import { supabase } from '@/integrations/supabase/client';
 
 export type RepeatMode = 'none' | 'one' | 'all';
 
@@ -152,6 +153,25 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       audioRef.current.volume = state.volume / 100;
     }
   }, [state.volume]);
+
+  // Clear player when user logs out
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        // Clear player state and stop playback when user logs out
+        dispatch({ type: 'SET_QUEUE', payload: [] });
+        dispatch({ type: 'SET_CURRENT_INDEX', payload: -1 });
+        dispatch({ type: 'SET_CURRENT_SONG', payload: null });
+        dispatch({ type: 'SET_PLAYING', payload: false });
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.src = '';
+        }
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   // Generate shuffled indices when shuffle is enabled
   useEffect(() => {
