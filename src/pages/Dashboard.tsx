@@ -6,9 +6,73 @@ import { GenreBrowseSection } from '@/components/discovery/GenreBrowseSection';
 import { RandomDiscoverySection } from '@/components/discovery/RandomDiscoverySection';
 import { Music, TrendingUp, Clock, Heart } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 
 const Dashboard = () => {
   const { profile } = useAuth();
+  const [stats, setStats] = useState({
+    totalSongs: 0,
+    playlists: 0,
+    favorites: 0,
+    listeningTime: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      if (!profile?.id) return;
+      
+      try {
+        // Fetch total approved songs
+        const { count: totalSongs } = await supabase
+          .from('songs')
+          .select('*', { count: 'exact', head: true })
+          .eq('approved', true);
+
+        // Fetch user's playlists count
+        const { count: playlists } = await supabase
+          .from('playlists')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', profile.id);
+
+        // Fetch user's favorites count
+        const { count: favorites } = await supabase
+          .from('favorites')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', profile.id);
+
+        // Calculate listening time from user's favorites (duration in seconds, convert to hours)
+        const { data: favoritesSongs } = await supabase
+          .from('favorites')
+          .select(`
+            songs:song_id (
+              duration
+            )
+          `)
+          .eq('user_id', profile.id);
+
+        const totalDuration = favoritesSongs?.reduce((acc, fav: any) => {
+          return acc + (fav.songs?.duration || 0);
+        }, 0) || 0;
+
+        const listeningTimeHours = Math.round(totalDuration / 3600);
+
+        setStats({
+          totalSongs: totalSongs || 0,
+          playlists: playlists || 0,
+          favorites: favorites || 0,
+          listeningTime: listeningTimeHours
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, [profile?.id]);
 
   return (
     <div className="bg-background">
@@ -32,22 +96,26 @@ const Dashboard = () => {
                 <Music className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">1,247</div>
+                <div className="text-2xl font-bold">
+                  {loading ? '...' : stats.totalSongs.toLocaleString()}
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  +20% from last month
+                  Available on platform
                 </p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Playlists</CardTitle>
+                <CardTitle className="text-sm font-medium">Your Playlists</CardTitle>
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">23</div>
+                <div className="text-2xl font-bold">
+                  {loading ? '...' : stats.playlists}
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  +2 new this week
+                  Personal collections
                 </p>
               </CardContent>
             </Card>
@@ -58,22 +126,26 @@ const Dashboard = () => {
                 <Clock className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">127h</div>
+                <div className="text-2xl font-bold">
+                  {loading ? '...' : `${stats.listeningTime}h`}
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  This month
+                  From your favorites
                 </p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Favorites</CardTitle>
+                <CardTitle className="text-sm font-medium">Your Favorites</CardTitle>
                 <Heart className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">89</div>
+                <div className="text-2xl font-bold">
+                  {loading ? '...' : stats.favorites}
+                </div>
                 <p className="text-xs text-muted-foreground">
-                  +12 from last week
+                  Loved tracks
                 </p>
               </CardContent>
             </Card>
