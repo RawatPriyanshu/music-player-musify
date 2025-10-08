@@ -13,10 +13,9 @@ export const MobileNavigation: React.FC = () => {
     impact('light');
   };
 
-  // Base navigation items for all users
+  // Base navigation items for all users (removed Search as it's in header)
   const baseNavItems = [
     { icon: Home, label: 'Home', path: '/' },
-    { icon: Search, label: 'Search', path: '/search' },
     { icon: Library, label: 'Library', path: '/library' },
     { icon: List, label: 'Playlists', path: '/playlists' },
     { icon: Heart, label: 'Favorites', path: '/favorites' }
