@@ -86,7 +86,7 @@ const AppRoutes = () => {
       {/* Show Navbar only for non-admin routes */}
       {!isAdminRoute && <Navbar />}
       
-      <div className={!isAdminRoute ? "lg:pt-16" : ""}>
+      <div className={!isAdminRoute ? "lg:pt-16 pb-40 lg:pb-28" : ""}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
         <Route 
@@ -216,8 +216,8 @@ const AppRoutes = () => {
       </div>
       
       {/* Show PlayerBar only for non-admin routes */}
-      {!isAdminRoute && (
-        <div className="pb-20 lg:pb-0">
+      {!isAdminRoute && user && (
+        <div className="lg:pb-0">
           <PlayerBar />
         </div>
       )}

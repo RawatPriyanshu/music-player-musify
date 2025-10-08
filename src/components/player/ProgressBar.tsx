@@ -32,9 +32,9 @@ export function ProgressBar() {
   }, [actions, seekValue]);
 
   return (
-    <div className="flex items-center gap-3 text-sm text-muted-foreground">
+    <div className="flex items-center gap-2 lg:gap-3 text-xs lg:text-sm text-muted-foreground">
       {/* Current time */}
-      <span className="tabular-nums min-w-[40px]">
+      <span className="tabular-nums min-w-[32px] lg:min-w-[40px] text-[10px] lg:text-sm">
         {formatTime(currentTime)}
       </span>
       
@@ -52,7 +52,7 @@ export function ProgressBar() {
       </div>
       
       {/* Duration */}
-      <span className="tabular-nums min-w-[40px]">
+      <span className="tabular-nums min-w-[32px] lg:min-w-[40px] text-[10px] lg:text-sm">
         {formatTime(state.duration)}
       </span>
     </div>
