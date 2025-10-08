@@ -86,7 +86,7 @@ const AppRoutes = () => {
       {/* Show Navbar only for non-admin routes */}
       {!isAdminRoute && <Navbar />}
       
-      <div className={!isAdminRoute ? "pt-16" : ""}>
+      <div className={!isAdminRoute ? "lg:pt-16" : ""}>
         <Suspense fallback={<PageLoader />}>
           <Routes>
         <Route 
