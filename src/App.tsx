@@ -9,6 +9,7 @@ import { PlayerProvider } from "@/contexts/PlayerContext";
 import { PlayerBar } from "@/components/player/PlayerBar";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import Navbar from "./components/Navbar";
+import { MobileNavigation } from "./components/mobile/MobileNavigation";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { PerformanceMonitor } from "@/components/PerformanceMonitor";
 
@@ -216,10 +217,13 @@ const AppRoutes = () => {
       
       {/* Show PlayerBar only for non-admin routes */}
       {!isAdminRoute && (
-        <div className="pb-20">
+        <div className="pb-20 lg:pb-0">
           <PlayerBar />
         </div>
       )}
+      
+      {/* Mobile Navigation - only show on small screens for non-admin routes */}
+      {!isAdminRoute && user && <MobileNavigation />}
     </div>
   );
 };
