@@ -23,14 +23,6 @@ const GENRE_COLORS = [
   'bg-gradient-to-br from-yellow-500 to-orange-500',
 ];
 
-const MOOD_CATEGORIES = [
-  { name: 'Energetic', icon: '⚡', songs: ['rock', 'electronic', 'dance', 'pop'] },
-  { name: 'Chill', icon: '🌙', songs: ['ambient', 'lo-fi', 'acoustic', 'indie'] },
-  { name: 'Focus', icon: '🎯', songs: ['instrumental', 'classical', 'ambient', 'jazz'] },
-  { name: 'Workout', icon: '💪', songs: ['hip-hop', 'electronic', 'rock', 'pop'] },
-  { name: 'Sad', icon: '😢', songs: ['indie', 'folk', 'alternative', 'singer-songwriter'] },
-  { name: 'Happy', icon: '😊', songs: ['pop', 'reggae', 'soul', 'funk'] },
-];
 
 export const GenreBrowseSection = () => {
   const [genres, setGenres] = useState<GenreData[]>([]);
@@ -80,9 +72,6 @@ export const GenreBrowseSection = () => {
     navigate(`/search?q=${encodeURIComponent(genre)}`);
   };
 
-  const handleMoodClick = (mood: string) => {
-    navigate(`/search?q=${encodeURIComponent(mood)}`);
-  };
 
   if (isLoading) {
     return (
@@ -139,30 +128,6 @@ export const GenreBrowseSection = () => {
         </CardContent>
       </Card>
 
-      {/* Browse by Mood */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Music2 className="w-5 h-5" />
-            Browse by Mood
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {MOOD_CATEGORIES.map((mood) => (
-              <Button
-                key={mood.name}
-                variant="outline"
-                className="h-auto p-4 flex flex-col items-center gap-2 hover:scale-105 transition-transform"
-                onClick={() => handleMoodClick(mood.name)}
-              >
-                <span className="text-2xl">{mood.icon}</span>
-                <span className="text-sm font-medium">{mood.name}</span>
-              </Button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
