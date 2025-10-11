@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Home, Search, Library, Heart, Upload, User, List, Settings, MoreHorizontal } from 'lucide-react';
+import { Home, Search, Library, Heart, Upload, User, List, Settings, MoreHorizontal, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { useAuth } from '@/hooks/useAuth';
@@ -8,12 +8,16 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 
 export const MobileNavigation: React.FC = () => {
   const { impact } = useHapticFeedback();
-  const { user, profile } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
@@ -25,6 +29,19 @@ export const MobileNavigation: React.FC = () => {
     impact('light');
     navigate(path);
     setIsMoreOpen(false);
+  };
+
+  const handleSignOut = async () => {
+    impact('medium');
+    await signOut();
+    setIsMoreOpen(false);
+  };
+
+  const getInitials = (username: string | null, email: string) => {
+    if (username) {
+      return username.substring(0, 2).toUpperCase();
+    }
+    return email.substring(0, 2).toUpperCase();
   };
 
   // Main navigation items (always visible)
@@ -97,8 +114,32 @@ export const MobileNavigation: React.FC = () => {
           <DropdownMenuContent 
             align="end" 
             side="top"
-            className="w-48 mb-2 bg-background border-border z-[100]"
+            className="w-64 mb-2 bg-background border-border z-[100]"
           >
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex items-center gap-3 py-2">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={profile?.avatar_url || undefined} alt={profile?.username || 'User'} />
+                  <AvatarFallback className="bg-primary/10 text-primary">
+                    {profile && getInitials(profile.username, profile.email)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium leading-none text-foreground truncate">
+                      {profile?.username || 'User'}
+                    </p>
+                    {profile?.role === 'admin' && (
+                      <Badge variant="default" className="text-xs">Admin</Badge>
+                    )}
+                  </div>
+                  <p className="text-xs leading-none text-muted-foreground truncate mt-1">
+                    {profile?.email}
+                  </p>
+                </div>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
             {moreMenuItems.map(({ icon: Icon, label, path }) => (
               <DropdownMenuItem
                 key={path}
@@ -109,6 +150,14 @@ export const MobileNavigation: React.FC = () => {
                 <span className="font-medium">{label}</span>
               </DropdownMenuItem>
             ))}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem 
+              onClick={handleSignOut}
+              className="flex items-center gap-3 py-3 cursor-pointer text-destructive focus:text-destructive"
+            >
+              <LogOut className="h-5 w-5" />
+              <span className="font-medium">Sign out</span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </nav>
