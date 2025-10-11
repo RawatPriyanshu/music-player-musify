@@ -76,18 +76,18 @@ const Favorites: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 space-y-8">
+    <div className="container mx-auto px-4 py-8 pb-40 lg:pb-28 space-y-8 max-w-7xl">
       {/* Header */}
-      <div className="flex items-start gap-6">
-        <div className="w-48 h-48 bg-gradient-to-br from-red-500/20 to-pink-500/40 rounded-lg flex items-center justify-center shrink-0">
-          <Heart className="h-24 w-24 text-red-500 fill-current" />
+      <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+        <div className="w-32 h-32 sm:w-48 sm:h-48 bg-gradient-to-br from-red-500/20 to-pink-500/40 rounded-lg flex items-center justify-center shrink-0">
+          <Heart className="h-16 w-16 sm:h-24 sm:w-24 text-red-500 fill-current" />
         </div>
 
-        <div className="flex-1 space-y-4">
+        <div className="flex-1 space-y-3 sm:space-y-4 w-full">
           <div>
-            <p className="text-sm text-muted-foreground uppercase tracking-wide">Playlist</p>
-            <h1 className="text-4xl font-bold text-foreground">Liked Songs</h1>
-            <p className="text-muted-foreground mt-2">Your favorite tracks all in one place</p>
+            <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-wide">Playlist</p>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">Liked Songs</h1>
+            <p className="text-sm sm:text-base text-muted-foreground mt-1 sm:mt-2">Your favorite tracks all in one place</p>
           </div>
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -100,11 +100,12 @@ const Favorites: React.FC = () => {
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Button 
               onClick={handlePlayAll}
               disabled={favorites.length === 0}
               className="bg-primary hover:bg-primary/90"
+              size="sm"
             >
               <Play className="mr-2 h-4 w-4" />
               Play
@@ -113,6 +114,7 @@ const Favorites: React.FC = () => {
               variant="outline" 
               onClick={handleShufflePlay}
               disabled={favorites.length === 0}
+              size="sm"
             >
               <Shuffle className="mr-2 h-4 w-4" />
               Shuffle

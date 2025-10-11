@@ -62,11 +62,11 @@ const Playlists: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 space-y-8">
+    <div className="container mx-auto px-4 py-8 pb-40 lg:pb-28 space-y-8 max-w-7xl">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">My Playlists</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">My Playlists</h1>
           <p className="text-muted-foreground">
             {playlists.length} playlist{playlists.length !== 1 ? 's' : ''}
           </p>

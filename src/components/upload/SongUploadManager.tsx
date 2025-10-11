@@ -80,9 +80,9 @@ export function SongUploadManager() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold">Upload Music</h2>
+          <h2 className="text-xl sm:text-2xl font-bold">Upload Music</h2>
           <p className="text-muted-foreground">
             Share your music with the community
           </p>
@@ -125,50 +125,50 @@ export function SongUploadManager() {
           
           {/* Upload Statistics */}
           {progressItems.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
               <Card>
-                <CardContent className="p-4">
+                <CardContent className="p-3 sm:p-4">
                   <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-orange-500" />
+                    <Clock className="w-4 h-4 text-orange-500 shrink-0" />
                     <div>
-                      <p className="text-2xl font-bold">{pendingUploads}</p>
-                      <p className="text-sm text-muted-foreground">Pending</p>
+                      <p className="text-xl sm:text-2xl font-bold">{pendingUploads}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Pending</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
               
               <Card>
-                <CardContent className="p-4">
+                <CardContent className="p-3 sm:p-4">
                   <div className="flex items-center gap-2">
-                    <Upload className="w-4 h-4 text-blue-500" />
+                    <Upload className="w-4 h-4 text-blue-500 shrink-0" />
                     <div>
-                      <p className="text-2xl font-bold">{progressItems.length}</p>
-                      <p className="text-sm text-muted-foreground">Total</p>
+                      <p className="text-xl sm:text-2xl font-bold">{progressItems.length}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Total</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
               
               <Card>
-                <CardContent className="p-4">
+                <CardContent className="p-3 sm:p-4">
                   <div className="flex items-center gap-2">
-                    <Music className="w-4 h-4 text-green-500" />
+                    <Music className="w-4 h-4 text-green-500 shrink-0" />
                     <div>
-                      <p className="text-2xl font-bold">{completedUploads}</p>
-                      <p className="text-sm text-muted-foreground">Completed</p>
+                      <p className="text-xl sm:text-2xl font-bold">{completedUploads}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Completed</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
               
               <Card>
-                <CardContent className="p-4">
+                <CardContent className="p-3 sm:p-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-destructive rounded-full" />
+                    <div className="w-4 h-4 bg-destructive rounded-full shrink-0" />
                     <div>
-                      <p className="text-2xl font-bold">{failedUploads}</p>
-                      <p className="text-sm text-muted-foreground">Failed</p>
+                      <p className="text-xl sm:text-2xl font-bold">{failedUploads}</p>
+                      <p className="text-xs sm:text-sm text-muted-foreground">Failed</p>
                     </div>
                   </div>
                 </CardContent>

@@ -183,9 +183,9 @@ export function SongLibrary() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold">Music Library</h2>
+          <h2 className="text-xl sm:text-2xl font-bold">Music Library</h2>
           <p className="text-muted-foreground">
             {isAdmin ? 'Manage all songs and pending uploads' : 'Discover and play music'}
           </p>
@@ -210,14 +210,14 @@ export function SongLibrary() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-center gap-2">
-              <Music className="w-4 h-4 text-green-500" />
+              <Music className="w-4 h-4 text-green-500 shrink-0" />
               <div>
-                <p className="text-2xl font-bold">{approvedCount}</p>
-                <p className="text-sm text-muted-foreground">Approved Songs</p>
+                <p className="text-xl sm:text-2xl font-bold">{approvedCount}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">Approved Songs</p>
               </div>
             </div>
           </CardContent>
@@ -225,12 +225,12 @@ export function SongLibrary() {
         
         {isAdmin && (
           <Card>
-            <CardContent className="p-4">
+            <CardContent className="p-3 sm:p-4">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-orange-500 rounded-full" />
+                <div className="w-4 h-4 bg-orange-500 rounded-full shrink-0" />
                 <div>
-                  <p className="text-2xl font-bold">{pendingCount}</p>
-                  <p className="text-sm text-muted-foreground">Pending Approval</p>
+                  <p className="text-xl sm:text-2xl font-bold">{pendingCount}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">Pending Approval</p>
                 </div>
               </div>
             </CardContent>
@@ -238,12 +238,12 @@ export function SongLibrary() {
         )}
         
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-blue-500" />
+              <Filter className="w-4 h-4 text-blue-500 shrink-0" />
               <div>
-                <p className="text-2xl font-bold">{filteredSongs.length}</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xl sm:text-2xl font-bold">{filteredSongs.length}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {searchQuery ? 'Filtered Results' : 'Total Shown'}
                 </p>
               </div>
@@ -269,7 +269,7 @@ export function SongLibrary() {
             </div>
             
             <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
-              <SelectTrigger className="w-40">
+              <SelectTrigger className="w-full sm:w-40">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
